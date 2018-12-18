@@ -9,6 +9,8 @@ class Game extends React.Component {
       status: 'Next turn: X',
       xIsNext: true,
     };
+
+    this.resetClick = this.resetClick.bind(this);
   }
 
   calculateWinner(squares) {
@@ -63,8 +65,22 @@ class Game extends React.Component {
     this.changeStatus(!xIsNext);
   }
 
+  resetClick() {
+    this.setState(state => ({
+      squares: Array(9).fill(null),
+      status: 'Next turn: X',
+      xIsNext: !state.xIsNext,
+    }));
+  }
+
   render() {
     const { squares, xIsNext, status } = this.state;
+
+    const resetButton = (
+      <button type="button" onClick={this.resetClick}>
+        reset
+      </button>
+    );
 
     return (
       <div className="game">
@@ -78,6 +94,7 @@ class Game extends React.Component {
           />
         </div>
         <h6>{status}</h6>
+        {this.calculateWinner(squares) && resetButton}
       </div>
     );
   }
